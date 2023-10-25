@@ -1,16 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="/static/favicon.png">
+    <link rel="icon" href="/static/favicon.jpeg">
     <link rel="stylesheet" href="/styles/landing.css">
-    <title><%= title %></title>
+    <title>
+        <%= page_data.title %>
+    </title>
 </head>
+
 <body>
+    <%- include('navbar'); %>
+
     <main id="main">
-        <h2>Hi there <%= title %> 🙂</h2>
-        <p>visit <a href=<%= FRONT_END_URL %> >mini-link</a> to shorten your urls</p>
+        <div class="card">
+            <h2>Hi there 🙂</h2>
+            <p>Welcome to <%= page_data.title %>
+            </p>
+            <p>my github <a href=<%= page_data.MY_GITHUB_URL %> >@rashejrdmund</a></p>
+            <p>my Twitter <a href=<%= page_data.MY_TWITTER_URL %> >@orashus</a></p>
+        </div>
     </main>
 </body>
+
 </html>

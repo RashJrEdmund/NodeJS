@@ -6,13 +6,19 @@ const MONGO_CONNECT_URL = process.env.MONGO_CONNECT_URL;
 
 const PORT = process.env.PORT || 8000;
 
-const BASE_SHORTEN_URL = process.env.BASE_SHORTEN_URL;
+// TODO +=> use the bellow if you plan on validating with bcrypt and jwt
+// TODO +=> navigate to src/services/validation/index.ts to see the validation process
 
-const FRONT_END_URL = process.env.FRONT_END_URL
+// const JWT_PRIVATE_KEY = process.env.JWT_PRIVATE_KEY;
+
+// const SALT_ROUNDS = process.env.SALT_ROUNDS;
+
+// const TOKEN_EXPIRERY_TIME = process.env.TOKEN_EXPIRERY_TIME;
 
 export {
     MONGO_CONNECT_URL,
     PORT,
-    BASE_SHORTEN_URL,
-    FRONT_END_URL
+    // JWT_PRIVATE_KEY,
+    // SALT_ROUNDS,
+    // TOKEN_EXPIRERY_TIME
 };

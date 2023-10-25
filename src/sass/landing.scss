@@ -1,27 +1,26 @@
-body {
-    background-color: #181e29;
-    font-family: sans-serif;
+@import url("./default_overide.css");
+
+#main {
+    width: 100%;
+    min-height: 100vh;
+    height: fit-content;
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 100vh;
-}
 
-#main {
-    background-color: #0b101b;
-    border-radius: 10px;
-    padding: 2rem 1rem;
-    width: min(97vw, 400px);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: start;
-}
+    .card {
+        background-color: var(--bg-primary);
+        border-radius: 10px;
+        padding: 2rem 1rem;
+        width: min(97vw, 400px);
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        align-items: center;
+        justify-content: start;
 
-h2, p {
-    color: #cccccc;
-}
-
-p a {
-    color: #1d9bf0;
+        p a {
+            color: var(--link-primary);
+        }
+    }
 }

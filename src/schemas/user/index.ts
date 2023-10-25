@@ -8,8 +8,6 @@ const userSchema = new Schema(
         username: { type: String, required: true },
         email: { type: String, required: true },
         password: { type: String, required: true },
-        profile_pic: String,
-        is_premium_user: { type: Boolean, default: false },
         createdAt: String,
         updatedAt: String,
     },

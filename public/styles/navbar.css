@@ -1,0 +1,88 @@
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: fit-content;
+  min-height: 40px;
+  background-color: var(--bg-primary);
+  z-index: 3;
+}
+nav #menu,
+nav #overlay {
+  display: none;
+}
+nav #overlay.active {
+  background-color: rgba(1, 0, 0, 0.2078431373);
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 3;
+}
+nav ol {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  height: fit-content;
+}
+nav ol a {
+  padding: 1.2rem 3rem;
+  transition: 300ms;
+  width: 200px;
+  text-transform: capitalize;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+}
+nav ol a.current_route {
+  position: relative;
+}
+nav ol a.current_route::before {
+  content: " ";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: var(--link-primary);
+}
+nav ol a:hover {
+  background-color: var(--link-primary);
+}
+@media only screen and (max-width: 600px) {
+  nav {
+    min-height: 55px;
+  }
+  nav #menu {
+    display: flex;
+    top: 0;
+    left: 0;
+    margin: 1rem;
+    position: fixed;
+    z-index: 8;
+  }
+  nav ol {
+    padding: 2rem 0;
+    transition: 300ms;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    transform: translateY(-100%);
+    background-color: var(--bg-primary);
+    z-index: 6;
+  }
+  nav ol.active {
+    transform: translateY(0);
+  }
+  nav ol.active a {
+    width: 100vw;
+  }
+}
+
+/*# sourceMappingURL=navbar.css.map */

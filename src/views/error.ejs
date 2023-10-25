@@ -4,23 +4,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="/static/favicon.png">
+    <link rel="icon" href="/static/favicon.jpeg">
     <link rel="stylesheet" href="/styles/error.css">
     <title>
-        <%= title %>
+        <%= page_data.title %>
     </title>
 </head>
 
 <body>
-    <section>
-        <h2>
-            <%= header + " " + status %>
-        </h2>
-        <p class="error_message">
-            <%= message %>
-        </p>
-        <p class="">visit <a href=<%=FRONT_END_URL %> >mini-link</a> to shorten your urls</p>
-    </section>
+    <%- include('navbar'); %>
+
+    <main id="main">
+        <div class="card">
+            <h2>
+                <%= page_data.header + " " + page_data.status %>
+            </h2>
+            <p class="error_message">
+                <%= page_data.message %>
+            </p>
+        </div>
+    </main>
 </body>
 
 </html>

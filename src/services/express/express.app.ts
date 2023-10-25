@@ -1,14 +1,15 @@
 import express, { Application } from "express";
 import cors, { CorsOptions } from "cors";
-import { index_router, url_router } from "../../routes";
+import EntryPoints from "./express.entrypoints";
 import path from "path";
 
 export default async (app: Application) => {
+    // mainly for middle wares
     const cors_options: CorsOptions = {
         origin: "*",
     }
 
-    const public_root = path.join(__dirname + "/../../public");
+    const public_root = path.join(__dirname + "/../../../public");
 
     const views_root = path.join(__dirname + "/../../views");
 
@@ -20,8 +21,6 @@ export default async (app: Application) => {
 
     app.use(express.static(public_root)); // to handle any static files that will be serve and we don't want an extra route for them. like say images, stylesheets.
 
-    // application routes
-    app.use('/', index_router);
-
-    app.use("/r", url_router);
+    // for setting up application routes
+    EntryPoints(app);
 };

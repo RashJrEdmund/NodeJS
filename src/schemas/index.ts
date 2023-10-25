@@ -1,3 +1,1 @@
-export {  default as URL  } from "./url";
-
-export {  default as USER  } from "./user";
+export {  default as USERS  } from "./user";

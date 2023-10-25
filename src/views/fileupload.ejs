@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/static/favicon.jpeg">
+    <link rel="stylesheet" href="/styles/fileupload.css">
+    <title>
+        <%= page_data.title %>
+    </title>
+</head>
+
+<body>
+    <%- include('navbar'); %>
+
+        <main id="main">
+            <section class="container">
+                <form>
+                    <input type="text" name="name" placeholder="Name this item">
+                    <input type="file" name="image_file" accept="image/png, image/jpeg" id="image_file"
+                        aria-placeholder="Chose a file">
+                    <button type="submit">submit</button>
+                </form>
+                <section id="image_preview">
+                </section>
+            </section>
+
+            <section id="gallery">
+                <div class="gallery_image"></div>
+                <div class="gallery_image"></div>
+                <div class="gallery_image"></div>
+                <div class="gallery_image"></div>
+            </section>
+        </main>
+
+        <script type="module">
+            document.querySelector("form").onsubmit = (e) => {
+                e.preventDefault();
+                const {
+                    name: { value: name },
+                    image_file: {
+                        files: { 0: image_file }
+                    },
+                    action: submit_url,
+                    method
+                } = e.target;
+
+                const formData = new FormData();
+                formData.append("name", name);
+                formData.append("image_file", image_file);
+
+                fetch("http://localhost:8000/upload/", {
+                    method: "POST",
+                    body: formData,
+                    headers: {
+                        // "Content-Type": "multipart/form-data" // when using fetch don't do this
+                    }
+                })
+                    // .then((res) => res.json()) // response is not a json, but a file. so we have to parse the Readeablestream as a blob ("binary large object")
+                    .then((res) => res.blob()) // parsing the Readeablestream as a blob. ("binary large object")
+                    .then((res) => {
+                        const imageUrl = URL.createObjectURL(res);
+                        console.log("api response", res, { imageUrl })
+                        document.getElementById("image_preview").style.backgroundImage = `url(${imageUrl})`;
+                    })
+                    .catch((err) => console.log("an error occured", err));
+
+                console.log("submitting", { name, image_file, submit_url, method }, e);
+            }
+        </script>
+</body>
+
+</html>

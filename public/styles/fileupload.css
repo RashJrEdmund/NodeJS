@@ -1,0 +1,98 @@
+@import url("./default_overide.css");
+#main {
+  width: 100%;
+  min-height: 100vh;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+#main .container {
+  background-color: var(--bg-primary);
+  border-radius: 10px;
+  padding: 3rem 1rem;
+  width: min(97vw, 600px);
+  display: flex;
+  gap: 1rem;
+  margin: 100px auto 1rem;
+  align-items: start;
+  justify-content: start;
+}
+#main .container form {
+  background-color: var(--bg-primary);
+  border-radius: 10px;
+  width: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  align-items: center;
+  justify-content: start;
+}
+#main .container form input,
+#main .container form button {
+  width: 100%;
+  min-height: 30px;
+  padding: 10px;
+  border-radius: 3px;
+}
+#main .container form button {
+  background-color: burlywood;
+}
+#main .container #image_preview {
+  background-position: center;
+  background-size: contain;
+  background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYDrp7wlqERb1fkM4D8Hs9mU6U9Tn4MlPMSvZULFJQCR4iHytF_mviIqbVPJRn2I3pR4w&usqp=CAU");
+  background-repeat: no-repeat;
+  flex: 1;
+  border: 1px solid burlywood;
+  width: 100%;
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+#main .container #image_preview::before {
+  content: "Image preview here";
+  color: burlywood;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, calc(-100% - 10px));
+  white-space: nowrap;
+}
+#main .container #image_preview span {
+  color: burlywood;
+}
+#main #gallery {
+  width: min(97vw, 1224px);
+  margin: 2rem auto;
+  min-height: 300px;
+  padding: 10px;
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  align-items: center;
+  justify-content: center;
+}
+#main #gallery .gallery_image {
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  border: 1px solid burlywood;
+  width: min(100%, 300px, 92vw);
+  margin: auto;
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+@media only screen and (max-width: 600px) {
+  #main .container {
+    gap: 4rem;
+    flex-direction: column;
+  }
+}
+
+/*# sourceMappingURL=fileupload.css.map */

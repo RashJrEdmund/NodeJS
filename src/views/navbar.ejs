@@ -1,0 +1,21 @@
+<style>
+    @import "/styles/navbar.css";
+</style>
+
+<nav>
+    <div id="overlay"></div>
+
+    <pan id="menu">Menu</pan>
+
+    <ol id="nav_list">
+        <% nav_content.forEach(({ name, path })=> { %>
+            <a href=<%=path %> class=<%= current_route === path ? "current_route" : "" %> >
+                <li>
+                    <%= name %>
+                </li>
+            </a>
+        <% }); %>
+    </ol>
+</nav>
+
+<script type="module" src="/scripts/navbar.js"></script>
