@@ -1,4 +1,4 @@
-import db from "../../db";
+import db from "../../../public/fs_db";
 
 const Schema = db.Schema;
 
