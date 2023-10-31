@@ -43,7 +43,7 @@
 #main .container #image_preview {
   background-position: center;
   background-size: contain;
-  background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYDrp7wlqERb1fkM4D8Hs9mU6U9Tn4MlPMSvZULFJQCR4iHytF_mviIqbVPJRn2I3pR4w&usqp=CAU");
+  background-image: url("/uploads/Ettie-a-1698277769926.jpeg");
   background-repeat: no-repeat;
   flex: 1;
   border: 1px solid burlywood;
@@ -87,6 +87,19 @@
   display: flex;
   flex-direction: column;
   position: relative;
+}
+#main #gallery .gallery_image .del_btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 10px;
+  color: tomato;
+  font-weight: 800;
+  font-size: 21px;
+  cursor: pointer;
+  border: 1px solid tomato;
+  border-radius: 30px;
+  padding: 3px 7px;
 }
 @media only screen and (max-width: 600px) {
   #main .container {

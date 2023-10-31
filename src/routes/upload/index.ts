@@ -1,13 +1,11 @@
 import express, { Request, Response } from "express";
-import { template_data } from "../../defaults";
 
 import multer from "multer";
 import custom_logger from "../../services/extra/custom_logger";
 import path from "path";
-import fs from "fs";
+import { deleteFile, getFileDbContent, saveNewFileNameToFSdb } from "./services";
 
 const uploads_dir = path.join(__dirname, "../../../public/uploads");
-const file_db_dir = path.join(__dirname, "../../../public/fs_db");
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => { // see tutorial https://www.youtube.com/watch?v=wIOpe8S2Mk8
@@ -23,46 +21,43 @@ const uploads = multer({ storage });
 
 const router = express.Router();
 
-router.post("/", uploads.single("image_file"), async (req: Request, res: Response) => { // "image_file" in .single("") is the field name.
+router.get("/", async (_, res: Response) => { // "image_file" in .single("") is the field name.
     try {
-        const { file, files, body } = req;
+        const arr_file_names = await getFileDbContent(); // handling the fs stuff.
 
-        const filename = file?.filename as string; // use this an the fs.write file to save an array.
-
-        const file_path = path.join(uploads_dir, filename as string);
-
-        fs.readFile(file_db_dir + "/fs_db.txt", "utf8", (err, file_content) => {
-            if (err) return console.error("an error occured", err);
-
-            const data = JSON.parse(file_content);
-            custom_logger("fs_db data", data);
-
-            const new_data = [...data, filename];
-
-            fs.writeFile(file_db_dir + "/fs_db.txt", JSON.stringify(new_data), (error) => {
-                if (error) return console.error("an error occured", error);
-            })
-        });
-
-        custom_logger("files", { file, filename, ...body });
-
-        // const image = await new Promise((resolve, reject) => {
-        //     fs.readFile(file_path, (err, data) => {
-        //         if (err) {
-        //             reject(err);
-        //         } else {
-        //             resolve(Buffer.from(data).toString("base64url"));
-        //         }
-        //     });
-        // });
-
-        // return res.status(200).json({ image });
-
-        res.status(200).sendFile(file_path, (err) => {
-            if (err) custom_logger("ERROR IN SENDFILE CALLBACK", { message: "AN ERROR OCCURED", err });
-        });
+        return res.status(200).json({ arr_file_names: arr_file_names.reverse() });
     } catch (error) {
         custom_logger("ERROR", error);
+        res.json({ message: "AN ERROR OCCURED" });
+    }
+});
+
+router.post("/", uploads.single("image_file"), async (req: Request, res: Response) => { // "image_file" in .single("") is the field name.
+    try {
+        const { file, body } = req;
+
+        const filename = (file?.filename as string).replace(/[ ]/ig, "_"); // use this an the fs.write file to save an array.
+
+        saveNewFileNameToFSdb(filename, res); // handling the fs stuff.        
+    } catch (error) {
+        custom_logger("ERROR", error);
+        res.json({ message: "AN ERROR OCCURED" });
+    }
+});
+
+router.delete("/", async (req: Request, res: Response) => { // "image_file" in .single("") is the field name.
+    try {
+        const { img: imgname } = req.query as { img: string };
+        console.log("imgname", imgname, req.query);
+
+        // return res.json({ arr_file_names: imgname })
+        const arr_file_names = await deleteFile(imgname); // handling the fs stuff.
+
+        if (arr_file_names) return res.status(200).json({ arr_file_names });
+
+        return res.status(400).json({ arr_file_names });
+    } catch (error) {
+        custom_logger("ERROR", error, { type: "error" });
         res.json({ message: "AN ERROR OCCURED" });
     }
 });

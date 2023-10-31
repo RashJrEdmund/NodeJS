@@ -17,7 +17,7 @@
         <main id="main">
             <section class="container">
                 <form>
-                    <input type="text" name="name" placeholder="Name this item">
+                    <input type="text" name="name" id="name" placeholder="Name this item. Avoid spacing">
                     <input type="file" name="image_file" accept="image/png, image/jpeg" id="image_file"
                         aria-placeholder="Chose a file">
                     <button type="submit">submit</button>
@@ -27,14 +27,75 @@
             </section>
 
             <section id="gallery">
-                <div class="gallery_image"></div>
-                <div class="gallery_image"></div>
-                <div class="gallery_image"></div>
-                <div class="gallery_image"></div>
+                <!-- <div class="gallery_image"></div> -->
             </section>
         </main>
 
         <script type="module">
+            const getAPI_URL = () => {
+                const formAction = document.querySelector("form").action; // "http://localhost:8000/fileupload"
+
+                return formAction.split("file").join("") + "s"; // to give +=> "http://localhost:8000/uploads"
+            }
+
+            const fillGallery = (arr_file_names = []) => {
+                const gallery = document.getElementById("gallery");
+                gallery.innerHTML = "";
+                arr_file_names?.forEach((img) => {
+                    const gallery_image = document.createElement("div");
+                    gallery_image.className = "gallery_image";
+                    gallery_image.style.backgroundImage = `url(${"/uploads/" + img})`;
+
+                    const del_btn = document.createElement("span");
+                    del_btn.className = "del_btn";
+                    del_btn.dataset.img = img;
+                    del_btn.innerHTML = "&times;";
+                    del_btn.title = 'delete ' + img;
+                    del_btn.onclick = () => deleteImg(img);
+
+                    gallery_image.appendChild(del_btn);
+
+                    gallery.appendChild(gallery_image);
+                });
+            };
+
+            const deleteImg = (img) => {
+                const del_query = `${getAPI_URL()}/?img=${img}`;
+                try {
+                    fetch(del_query, {
+                        method: "DELETE", // the delete request does not take a body object
+                    })
+                        .then((res) => res.json())// response is not a json, but a file. so we have to parse the Readeablestream as a blob ("binary large object")
+                        // .then(console.log) // parsing the Readeablestream as a blob. ("binary large object")
+                        .then(({ arr_file_names }) => {
+                            fillGallery(arr_file_names);
+                        })
+                        .catch((err) => console.warn("an error occured", err));
+                } catch (error) {
+                    console.error("DELTE ERROR", error);
+                }
+            }
+
+            const clearFields = () => {
+                document.getElementById("name").value = "";
+                document.getElementById("image_file").value = "";
+            };
+
+            document.addEventListener("DOMContentLoaded", (event) => {
+                console.log("page is fully loaded", getAPI_URL());
+
+                fetch(getAPI_URL(), {
+                    method: "GET",
+                })
+                    // .then((res) => res.json()) // response is not a json, but a file. so we have to parse the Readeablestream as a blob ("binary large object")
+                    .then((res) => res.json()) // parsing the Readeablestream as a blob. ("binary large object")
+                    .then(({ arr_file_names }) => {
+                        console.log("api response", arr_file_names);
+                        fillGallery(arr_file_names);
+                    })
+                    .catch((err) => console.log("an error occured", err));
+            });
+
             document.querySelector("form").onsubmit = (e) => {
                 e.preventDefault();
                 const {
@@ -46,11 +107,14 @@
                     method
                 } = e.target;
 
+                if (!name.trim() || !image_file) return;
+                console.log("name", name, image_file)
+
                 const formData = new FormData();
                 formData.append("name", name);
                 formData.append("image_file", image_file);
 
-                fetch("http://localhost:8000/upload/", {
+                fetch(getAPI_URL(), {
                     method: "POST",
                     body: formData,
                     headers: {
@@ -58,15 +122,20 @@
                     }
                 })
                     // .then((res) => res.json()) // response is not a json, but a file. so we have to parse the Readeablestream as a blob ("binary large object")
-                    .then((res) => res.blob()) // parsing the Readeablestream as a blob. ("binary large object")
-                    .then((res) => {
-                        const imageUrl = URL.createObjectURL(res);
-                        console.log("api response", res, { imageUrl })
-                        document.getElementById("image_preview").style.backgroundImage = `url(${imageUrl})`;
+                    .then((res) => res.json()) // parsing the Readeablestream as a blob. ("binary large object")
+                    .then(({ arr_file_names }) => {
+                        console.log("api response", arr_file_names);
+                        fillGallery(arr_file_names);
                     })
+                    .then(clearFields)
                     .catch((err) => console.log("an error occured", err));
 
-                console.log("submitting", { name, image_file, submit_url, method }, e);
+                // console.log("submitting", { name, image_file, submit_url, method }, e);
+            }
+
+            document.getElementById("image_file").oninput = ({ target: { files: { 0: image_file } } }) => {
+                const previewUrl = URL.createObjectURL(image_file);
+                document.getElementById("image_preview").style.backgroundImage = `url(${previewUrl})`;
             }
         </script>
 </body>
