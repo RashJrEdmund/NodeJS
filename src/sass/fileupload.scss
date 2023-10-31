@@ -9,6 +9,11 @@
     align-items: center;
     justify-content: center;
 
+    h2 { // gallery title;
+        margin: 100px auto 1rem;
+        color: burlywood;
+    }
+
     .container {
         background-color: var(--bg-primary);
         border-radius: 10px;
@@ -16,7 +21,7 @@
         width: min(97vw, 600px);
         display: flex;
         gap: 1rem;
-        margin: 100px auto 1rem;
+        margin: 0 auto 1rem;
         align-items: start;
         justify-content: start;
 
