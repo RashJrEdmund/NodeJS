@@ -6,8 +6,8 @@
   "scripts": {
     "build": "node -e \"const readlineSync = require('readline-sync'); if (readlineSync.keyInYN('Are you sure you want to execute this build script? all .ts files will have a corresponding .js files just next to them')) { require('./local-build-script.js'); } else { console.log('Script execution cancelled.'); }\"",
     "build:ts": "npx tsc",
-    "build:all": "run-p build:ts sass",
-    "start": "node build/src/server.js",
+    "build:all": "concurrently \"npm run build:ts\" \"npm run sass\"",
+    "start": "node src/server.js",
     "start:watch": "nodemon src/server.ts",
     "sass": "sass src/sass:public/styles",
     "sass:watch": "sass --watch src/sass:public/styles",
