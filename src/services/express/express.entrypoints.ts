@@ -5,7 +5,7 @@ export default async (app: Application) => {
     // application routes
     app.use('/', index_router);
 
-    app.use("/upload", upload_router);
+    app.use("/uploads", upload_router);
 
     app.use("/*", fall_back);
 };
